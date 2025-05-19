@@ -1,0 +1,45 @@
+//
+//  SearchTextField.swift
+//  WeatherApp
+//
+//  Created by Marat Fakhrizhanov on 18.05.2025.
+//
+
+import SwiftUI
+
+struct SearchTextField: View {
+    @Binding var searchText: String
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "mappin.and.ellipse")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 30)
+                .foregroundStyle(.white.opacity(0.6))
+                .padding(.vertical, 5)
+                .padding(.trailing, 10)
+            
+            TextField("", text: $searchText, prompt: Text("Enter city").foregroundColor(.white.opacity(0.3)))
+                .foregroundStyle(.white.opacity(0.6))
+                .customFont(name: .pillGothic600mgSemibd, size: 25)
+                
+            Button {
+                
+            } label: {
+                Image(systemName: "magnifyingglass")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(.white.opacity(0.6))
+                    .padding(8)
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+                    .foregroundStyle(.secondary)
+                    .frame(height: 60)
+            }
+        }
+    }
+}
+
+#Preview {
+    SearchTextField(searchText: .constant("Delphi, India"))
+}

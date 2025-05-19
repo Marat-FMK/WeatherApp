@@ -29,11 +29,7 @@ class NetworkManager {
     private let searchEndpoint = "search.json"
     private let dayCount = "5"
     
-    init() { fetchWeather(city: "Moscow") { result in
-//        switch result {
-//            
-//        }
-    }}
+   
     // write generic
     func fetchWeather(city: String, completion: @escaping (Result<Weather,NetworkError>) -> Void ) {
        var urlComponents = URLComponents()
