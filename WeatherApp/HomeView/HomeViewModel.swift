@@ -14,6 +14,7 @@ class HomeViewModel: ObservableObject {
     @Published var possibleCityes: [Location] = []
     @Published var forecast: Forecast = Forecast.empty
     @Published var currentWeather: Current = Current.empty
+    var hoursForecast: [WeatherOfDay] = []
     let networkManager = NetworkManager()
     
     init() {
@@ -30,8 +31,10 @@ class HomeViewModel: ObservableObject {
             case .success(let weather):
                 guard let current = weather.current else {return}
                 guard let forecast = weather.forecast else {return}
-                self.currentWeather = current
-                self.forecast = forecast
+                DispatchQueue.main.async {
+                    self.currentWeather = current
+                    self.forecast = forecast
+                }
             case .failure(let error):
                 print(error)
             }
@@ -47,6 +50,33 @@ class HomeViewModel: ObservableObject {
                 print(error)
             }
         }
+    }
+    
+    func setHours() {
+        guard let hoursDayOne = forecast.forecastday?[0].hour else {return}
+        guard let hoursDayTwo = forecast.forecastday?[1].hour else {return}
+        guard let hoursDayThree = forecast.forecastday?[2].hour else {return}
+        guard let hoursDayFour = forecast.forecastday?[3].hour else {return}
+        guard let hoursDayFive = forecast.forecastday?[4].hour else {return}
+        
+        let dayOne = [hoursDayOne[5], hoursDayOne[11], hoursDayOne[18], hoursDayOne[21]]
+        let dayTwo = [hoursDayTwo[5], hoursDayTwo[11], hoursDayTwo[18], hoursDayTwo[21]]
+        let dayThree = [hoursDayThree[5], hoursDayThree[11], hoursDayThree[18], hoursDayThree[21]]
+        let dayFour = [hoursDayFour[5], hoursDayFour[11], hoursDayFour[18], hoursDayFour[21]]
+        let dayFive = [hoursDayFive[5], hoursDayFive[11], hoursDayFive[18], hoursDayFive[21]]
+        
+        
+        
+//        guard let forecastday = forecast.forecastday else { return }
+//        for day in forecastday {
+//            guard let hours = day.hour else { return }
+//            for hour in hours {
+////                guard let hour = hour else { return }
+//                guard let condition = hour.condition else {return}
+//                
+//                
+//            }
+//        }
     }
     
     

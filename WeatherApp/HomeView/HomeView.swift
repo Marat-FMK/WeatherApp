@@ -11,13 +11,15 @@ struct HomeView: View {
     @StateObject var viewModel = HomeViewModel()
     
     var body: some View {
-        ScrollView {
-            VStack {
+        ScrollView(showsIndicators: false) {
                 CurrentWeatherView(currentWeather: viewModel.currentWeather, selectedScale: viewModel.selectedScale, selectScale: viewModel.selectScale)
                 
                 
-            }
+            
         }
+        .ignoresSafeArea()
+        .padding(16)
+        .background(.gray)
     }
 }
 
