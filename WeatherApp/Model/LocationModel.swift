@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct Location: Codable {
+    let name: String?
+    let region: String?
+    let country: String?
+}
