@@ -13,8 +13,9 @@ class HomeViewModel: ObservableObject {
     @AppStorage("selectedScale") var selectedScale = "Celsius"
     @Published var possibleCityes: [Location] = []
     @Published var forecast: Forecast = Forecast.empty
+    @Published var forecastdays: [Forecastday] = [Forecastday.empty]
     @Published var currentWeather: Current = Current.empty
-    var hoursForecast: [WeatherOfDay] = []
+    var daysForecast: [[Hour]] = []
     let networkManager = NetworkManager()
     
     init() {
@@ -31,9 +32,12 @@ class HomeViewModel: ObservableObject {
             case .success(let weather):
                 guard let current = weather.current else {return}
                 guard let forecast = weather.forecast else {return}
+                guard let forecastday = weather.forecast?.forecastday else {return}
                 DispatchQueue.main.async {
                     self.currentWeather = current
                     self.forecast = forecast
+                    self.forecastdays = forecastday
+                    self.setDays()
                 }
             case .failure(let error):
                 print(error)
@@ -52,7 +56,7 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func setHours() {
+    func setDays() {
         guard let hoursDayOne = forecast.forecastday?[0].hour else {return}
         guard let hoursDayTwo = forecast.forecastday?[1].hour else {return}
         guard let hoursDayThree = forecast.forecastday?[2].hour else {return}
@@ -65,18 +69,7 @@ class HomeViewModel: ObservableObject {
         let dayFour = [hoursDayFour[5], hoursDayFour[11], hoursDayFour[18], hoursDayFour[21]]
         let dayFive = [hoursDayFive[5], hoursDayFive[11], hoursDayFive[18], hoursDayFive[21]]
         
-        
-        
-//        guard let forecastday = forecast.forecastday else { return }
-//        for day in forecastday {
-//            guard let hours = day.hour else { return }
-//            for hour in hours {
-////                guard let hour = hour else { return }
-//                guard let condition = hour.condition else {return}
-//                
-//                
-//            }
-//        }
+        daysForecast = [dayOne, dayTwo, dayThree, dayFour, dayFive]
     }
     
     

@@ -12,9 +12,13 @@ struct HomeView: View {
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-                CurrentWeatherView(currentWeather: viewModel.currentWeather, selectedScale: viewModel.selectedScale, selectScale: viewModel.selectScale)
+            CurrentWeatherView(currentWeather: viewModel.currentWeather, selectedScale: viewModel.selectedScale, selectScale: viewModel.selectScale)
+            
+            ForEach(viewModel.daysForecast.indices, id: \.description) { index in
                 
+                OneDay(forecastDay: viewModel.forecastdays[index], selectedScale: viewModel.selectedScale, dayHours: viewModel.daysForecast[index])
                 
+            }
             
         }
         .ignoresSafeArea()

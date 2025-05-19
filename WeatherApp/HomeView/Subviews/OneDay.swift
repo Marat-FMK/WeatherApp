@@ -10,9 +10,9 @@ import SwiftUI
 struct OneDay: View {
     let forecastDay: Forecastday
     let selectedScale: String
-    let hours: [Hour]
+    let dayHours: [Hour]
     let gradient = LinearGradient(colors: [.purple, .blue], startPoint: .bottomLeading, endPoint: .topTrailing)
-    let hoursForecast: [Hour]
+    
     var body: some View {
         VStack {
             
@@ -22,7 +22,7 @@ struct OneDay: View {
             
             ScrollView(.horizontal) {
                 HStack(spacing: 20) {
-                    ForEach(hours, id: \.time) { hour in
+                    ForEach(dayHours, id: \.time) { hour in
                         WeatherByClock(time: hour.time ?? "no date", icon: hour.condition?.icon ?? "no icon", selectedScale: selectedScale, temperatureC: hour.temp_c ?? 0, temperatureF: hour.temp_f ?? 0)
                     }
                 }
@@ -38,5 +38,5 @@ struct OneDay: View {
 }
 
 #Preview {
-    OneDay(forecastDay: Forecastday.empty, selectedScale: "Celsius", hours: [Hour.empty], hoursForecast: [Hour.empty])
+    OneDay(forecastDay: Forecastday.empty, selectedScale: "Celsius", dayHours: [Hour.empty])
 }
