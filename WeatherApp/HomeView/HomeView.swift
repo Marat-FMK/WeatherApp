@@ -8,10 +8,16 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var viewModel = HomeViewModel()
+    
     var body: some View {
-        
-        
-        
+        ScrollView {
+            VStack {
+                CurrentWeatherView(currentWeather: viewModel.currentWeather, selectedScale: viewModel.selectedScale, selectScale: viewModel.selectScale)
+                
+                
+            }
+        }
     }
 }
 
