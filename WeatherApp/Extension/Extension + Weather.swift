@@ -18,6 +18,7 @@ extension Current {
     static let empty = Current(
         condition: Condition.empty,
         temp_c: 0.0,
+        temp_f: 0.0,
         wind_kph: 0.0,
         humidity: 0.0
     )
@@ -31,18 +32,28 @@ extension Forecast {
 
 extension Forecastday {
     static let empty = Forecastday(
-        date: "",
-        day: Day.empty
+        date: "22 June 2025",
+        day: Day.empty,
+        hour: [Hour.empty]
     )
 }
 
 extension Day {
     static let empty = Day(
         avgtemp_c: 0.0,
+        avgtemp_f: 0.0,
         maxwind_kph: 0.0,
         avghumidity: 0.0,
-        condition: Condition.empty
+        condition: Condition.empty,
     )
+}
+
+extension Hour {
+    static let empty = Hour(
+        time: "12:00",
+        condition: Condition.empty,
+        temp_c: 0.0,
+        temp_f: 0.0)
 }
 
 extension Condition {
