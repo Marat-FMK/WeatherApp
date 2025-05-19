@@ -8,13 +8,41 @@
 import SwiftUI
 
 struct WeatherByClock: View {
+    let time: String
+    let icon: String
+    let selectedScale: String
+    let temperatureC: Double
+    let temperatureF: Double
+    
     var body: some View {
         VStack {
+            Text(String(selectedScale == "Celsius" ? temperatureC : temperatureF))
+                .customFont(name: .pillGothic600mgLight, size: 25)
+                .foregroundStyle(.white)
+
+            AsyncImage(url: URL(string: "https:" + icon)) { Icon in
+                Icon
+                    .resizable()
+                    .scaledToFit()
+                    .opacity(0.8)
+                
+            } placeholder: {
+                Image(systemName: "tropicalstorm.circle")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(.white.opacity(0.5))
+            }
             
+            Text(time)
+                .customFont(name: .pillGothic600mgBold, size: 20)
+                .foregroundStyle(.white.opacity(0.6))
         }
+        .frame(width: 60, height: 150)
+        .padding(10)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
     }
 }
 
 #Preview {
-    WeatherByClock()
+    WeatherByClock(time: "12:00", icon: "//cdn.weatherapi.com/weather/64x64/day/176.png",selectedScale: "Celsius", temperatureC: 25.0, temperatureF: 99.1)
 }

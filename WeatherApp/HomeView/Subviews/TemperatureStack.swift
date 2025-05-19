@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct TemperatureStack: View {
-    let temperature: Double
+    let temperatureC: Double
+    let temperatureF: Double
     let selectedScale: String
     let selectScale: () -> Void
     
     var body: some View {
         HStack {
             HStack(alignment: .top) {
-                Text(String(temperature))
+                Text(String(selectedScale == "Celsius" ? temperatureC : temperatureF))
                     .customFont(name: .pillGothic600mgThin, size: 120)
                     .foregroundStyle(.white)
                     .shadow(color: .gray.opacity(0.6), radius: 1, x: -5, y: 3)
@@ -38,5 +39,5 @@ struct TemperatureStack: View {
 }
 
 #Preview {
-    TemperatureStack(temperature: 31.7, selectedScale: "Fahrenheit", selectScale: {})
+    TemperatureStack(temperatureC: 31.7, temperatureF: 55.1, selectedScale: "Fahrenheit", selectScale: {})
 }

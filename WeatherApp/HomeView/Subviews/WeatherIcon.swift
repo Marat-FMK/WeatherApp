@@ -18,7 +18,7 @@ struct WeatherIcon: View {
                 Icon
                     .resizable()
                     .scaledToFit()
-                    .shadow(color: .blue, radius: 15, x: -20, y: 8)
+                    .shadow(color: .blue, radius: 15, x: -25, y: 10)
                 
             } placeholder: {
                 Image(systemName: "tropicalstorm.circle")
