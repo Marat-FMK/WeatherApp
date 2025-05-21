@@ -63,14 +63,13 @@ class HomeViewModel: ObservableObject {
         guard let hoursDayFour = forecast.forecastday?[3].hour else {return}
         guard let hoursDayFive = forecast.forecastday?[4].hour else {return}
         
-        let dayOne = [hoursDayOne[5], hoursDayOne[11], hoursDayOne[18], hoursDayOne[21]]
-        let dayTwo = [hoursDayTwo[5], hoursDayTwo[11], hoursDayTwo[18], hoursDayTwo[21]]
-        let dayThree = [hoursDayThree[5], hoursDayThree[11], hoursDayThree[18], hoursDayThree[21]]
-        let dayFour = [hoursDayFour[5], hoursDayFour[11], hoursDayFour[18], hoursDayFour[21]]
-        let dayFive = [hoursDayFive[5], hoursDayFive[11], hoursDayFive[18], hoursDayFive[21]]
+        let dayOne = [hoursDayOne[5], hoursDayOne[11],hoursDayOne[15], hoursDayOne[18], hoursDayOne[21]]
+        let dayTwo = [hoursDayTwo[5], hoursDayTwo[11],hoursDayTwo[15], hoursDayTwo[18], hoursDayTwo[21]]
+        let dayThree = [hoursDayThree[5], hoursDayThree[11],hoursDayThree[15], hoursDayThree[18], hoursDayThree[21]]
+        let dayFour = [hoursDayFour[5], hoursDayFour[11],hoursDayFour[15], hoursDayFour[18], hoursDayFour[21]]
+        let dayFive = [hoursDayFive[5], hoursDayFive[11],hoursDayFive[15], hoursDayFive[18], hoursDayFive[21]]
         
         daysForecast = [dayOne, dayTwo, dayThree, dayFour, dayFive]
     }
-    
     
 }

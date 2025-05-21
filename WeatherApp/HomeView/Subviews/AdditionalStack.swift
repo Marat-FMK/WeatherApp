@@ -14,11 +14,12 @@ struct AdditionalStack: View {
         HStack(alignment: .center, spacing: 20) {
             AdditionalInfo(title: "Wind", value: currentWind)
             RoundedRectangle(cornerRadius: 5)
-                .foregroundStyle(.gray.opacity(0.6))
+                .foregroundStyle(.ultraThinMaterial.opacity(0.6))
                 .frame(width: 2, height: 40)
             AdditionalInfo(title: "Humidity", value: currentHumidity)
                 .padding(.leading, 15)
         }
+//        .background(.green)
     }
 }
 

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CurrentWeatherView: View {
-    @State private var presentText = false
     let currentWeather: Current
     let selectedScale: String
     let gradient = LinearGradient(colors: [.purple, .blue], startPoint: .bottomLeading, endPoint: .topTrailing)

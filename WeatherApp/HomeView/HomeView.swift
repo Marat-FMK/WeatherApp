@@ -11,20 +11,19 @@ struct HomeView: View {
     @StateObject var viewModel = HomeViewModel()
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            
-            CurrentWeatherView(currentWeather: viewModel.currentWeather, selectedScale: viewModel.selectedScale, selectScale: viewModel.selectScale)
-            
-            ForEach(viewModel.daysForecast.indices, id: \.description) { index in
+            ScrollView(showsIndicators: false) {
                 
-                OneDay(forecastDay: viewModel.forecastdays[index], selectedScale: viewModel.selectedScale, dayHours: viewModel.daysForecast[index])
+                CurrentWeatherView(currentWeather: viewModel.currentWeather, selectedScale: viewModel.selectedScale, selectScale: viewModel.selectScale)
                 
+                ForEach(viewModel.daysForecast.indices, id: \.description) { index in
+                    
+                    OneDay(forecastDay: viewModel.forecastdays[index], selectedScale: viewModel.selectedScale, dayHours: viewModel.daysForecast[index])
+                    
+                }
             }
-            // prosto tak
-        }
-        .ignoresSafeArea()
-        .padding(16)
-        .background(.gray)
+//        .ignoresSafeArea()
+        .padding(.horizontal, 16)
+        .background(.appBackground)
     }
 }
 

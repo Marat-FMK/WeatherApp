@@ -24,25 +24,24 @@ struct WeatherByClock: View {
                 Icon
                     .resizable()
                     .scaledToFit()
-                    .opacity(0.8)
-                
+                    .opacity(0.6)
             } placeholder: {
                 Image(systemName: "tropicalstorm.circle")
                     .resizable()
                     .scaledToFit()
-                    .foregroundStyle(.white.opacity(0.5))
+                    .foregroundStyle(.white.opacity(0.6))
             }
             
-            Text(time)
+            Text(time.toDate()?.formatted(date: .omitted, time: .shortened) ?? "")
                 .customFont(name: .pillGothic600mgBold, size: 20)
                 .foregroundStyle(.white.opacity(0.6))
         }
-        .frame(width: 60, height: 150)
-        .padding(10)
+        .frame(width: 60, height: 120)
+        .padding(20)
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
     }
 }
 
 #Preview {
-    WeatherByClock(time: "12:00", icon: "//cdn.weatherapi.com/weather/64x64/day/176.png",selectedScale: "Celsius", temperatureC: 25.0, temperatureF: 99.1)
+    WeatherByClock(time: "2025-05-25 19:00", icon: "//cdn.weatherapi.com/weather/64x64/day/176.png",selectedScale: "Celsius", temperatureC: 25.0, temperatureF: 99.1)
 }

@@ -18,15 +18,16 @@ struct WeatherIcon: View {
                 Icon
                     .resizable()
                     .scaledToFit()
-                    .shadow(color: .blue, radius: 15, x: -25, y: 10)
-                
+                    .shadow(color: .blue, radius: 30, x: -25, y: 10)
+                    .shadow(color: .purple, radius: 30, x: 60 , y: -35)
+                    .shadow(color: .yellow, radius: 40, x: 30 , y: 30)
             } placeholder: {
                 Image(systemName: "tropicalstorm.circle")
                     .resizable()
                     .scaledToFit()
-                    .foregroundStyle(.white.opacity(0.5))
+                    .foregroundStyle(.white.opacity(0.6))
             }
-            
+        
             Spacer()
             
             Text(description)
@@ -34,27 +35,6 @@ struct WeatherIcon: View {
                 .minimumScaleFactor(0.5)
                 .lineLimit(2)
                 .foregroundStyle(.white.opacity(0.6))
-            
-//            Button {
-//                withAnimation {
-//                    presentDescription.toggle()
-//                }
-//            } label: {
-//                if presentDescription {
-//                    Text(description)
-//                        .customFont(name: .pillGothic600mgBold, size: 20)
-//                        .minimumScaleFactor(0.5)
-//                        .lineLimit(2)
-//                        .foregroundStyle(.white.opacity(0.6))
-//                } else {
-//                Image(systemName: "questionmark.circle.dashed")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .foregroundStyle(.white.opacity(0.2))
-//                    .frame(width: 60)
-//            }
-//            }
-//            .buttonStyle(.plain)
         }
         .frame(height: 120)
     }
