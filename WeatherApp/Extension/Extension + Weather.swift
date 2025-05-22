@@ -32,7 +32,7 @@ extension Forecast {
 
 extension Forecastday {
     static let empty = Forecastday(
-        date: "2025-05-25",
+        date: "",
         day: Day.empty,
         hour: [Hour.empty]
     )
@@ -50,7 +50,7 @@ extension Day {
 
 extension Hour {
     static let empty = Hour(
-        time: "2025-05-25 19:00",
+        time: "",
         condition: Condition.empty,
         temp_c: 0.0,
         temp_f: 0.0)
