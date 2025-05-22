@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CityName: View {
+    @FocusState.Binding var fieldInFocused: Bool
     let city: Location
     let fetchWeather: () -> Void
     let selectCity: (Location) -> Void
@@ -30,6 +31,7 @@ struct CityName: View {
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
         .onTapGesture {
             selectCity(city)
+            fieldInFocused = false
         }
     }
 }

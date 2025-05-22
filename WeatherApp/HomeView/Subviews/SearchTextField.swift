@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct SearchTextField: View {
+    @FocusState.Binding var fieldInFocused: Bool
     @Binding var searchText: String
-    let searchForecast: () -> Void
-    let searchCityes: () -> Void
+    let fetchWeather: () -> Void
     
     var body: some View {
         HStack {
@@ -26,9 +26,13 @@ struct SearchTextField: View {
                 .foregroundStyle(.white.opacity(0.6))
                 .customFont(name: .pillGothic600mgSemibd, size: 25)
                 .minimumScaleFactor(0.6)
+                .focused($fieldInFocused)
             
             Button {
-                searchForecast()
+                withAnimation {
+                    fieldInFocused = false
+                    fetchWeather()
+                }
             } label: {
                 Image(systemName: "magnifyingglass")
                     .resizable()
@@ -36,13 +40,13 @@ struct SearchTextField: View {
                     .foregroundStyle(.white.opacity(0.4))
                     .padding(8)
                     .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
-                    .foregroundStyle(.secondary)
+//                    .foregroundStyle(.secondary)
                     .frame(height: 60)
             }
         }
     }
 }
-
-#Preview {
-    SearchTextField(searchText: .constant("Delphi, India"), searchForecast: {}, searchCityes: {})
-}
+//
+//#Preview {
+//    SearchTextField( fieldInFocused: ,searchText: .constant("Delphi, India"), searchForecast: {})
+//}

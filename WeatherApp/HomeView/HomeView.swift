@@ -12,16 +12,13 @@ struct HomeView: View {
     
     var body: some View {
             ScrollView(showsIndicators: false) {
-                
-                CurrentWeatherView(searchText: $viewModel.selectedCity, possibleCityes: $viewModel.possibleCityes, currentWeather: viewModel.currentWeather, selectedScale: viewModel.selectedScale, selectScale: viewModel.selectScale,fetchWeather: viewModel.fetchWeather, searchCityes: viewModel.fetchCityes, selectCity: viewModel.selectCity)
+                CurrentWeatherView(searchText: $viewModel.selectedCity, possibleCityes: $viewModel.possibleCityes, currentWeather: viewModel.currentWeather, selectedScale: viewModel.selectedScale, selectScale: viewModel.selectScale,fetchWeather: viewModel.fetchWeather, selectCity: viewModel.selectCity)
                 
                 ForEach(viewModel.daysForecast.indices, id: \.description) { index in
-                    
                     OneDay(forecastDay: viewModel.forecastdays[index], selectedScale: viewModel.selectedScale, dayHours: viewModel.daysForecast[index])
-                    
                 }
             }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, 10)
         .background(.appBackground)
     }
 }

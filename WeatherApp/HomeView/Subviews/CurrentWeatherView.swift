@@ -10,19 +10,24 @@ import SwiftUI
 struct CurrentWeatherView: View {
     @Binding var searchText: String
     @Binding var possibleCityes: [Location]
+    @FocusState var fieldInFocused: Bool
     let currentWeather: Current
     let selectedScale: String
     let gradient = LinearGradient(colors: [.purple, .blue], startPoint: .bottomLeading, endPoint: .topTrailing)
     let selectScale: () -> Void
     let fetchWeather: () -> Void
-    let searchCityes: () -> Void
     let selectCity: (Location) -> Void
     
     var body: some View {
-        
+        ZStack {
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    fieldInFocused = false
+                }
         VStack(spacing: 10) {
             // Search
-            SearchTextField(searchText: $searchText, searchForecast: fetchWeather, searchCityes: searchCityes)
+            SearchTextField(fieldInFocused: $fieldInFocused, searchText: $searchText, fetchWeather: fetchWeather)
             
             if possibleCityes.isEmpty {
                 VStack {
@@ -37,10 +42,11 @@ struct CurrentWeatherView: View {
                 }
             } else {
                 ForEach(possibleCityes, id: \.country) { city in
-                    CityName( city: city, fetchWeather: fetchWeather, selectCity: selectCity)
+                    CityName( fieldInFocused: $fieldInFocused, city: city, fetchWeather: fetchWeather, selectCity: selectCity)
                 }
             }
         }
+    }
         .padding(20)
         .background {
             RoundedRectangle(cornerRadius: 30)
@@ -50,5 +56,5 @@ struct CurrentWeatherView: View {
 }
 
 #Preview {
-    CurrentWeatherView(searchText: .constant("Moscow"), possibleCityes: .constant([]), currentWeather: Current(condition: Condition(text: "Patchy rain nearby", icon: "//cdn.weatherapi.com/weather/64x64/day/176.png"), temp_c: 19, temp_f: 0.0, wind_kph: 2, humidity: 69), selectedScale: "Celsius", selectScale: {},fetchWeather: {}, searchCityes: {}, selectCity: {_ in})
+    CurrentWeatherView(searchText: .constant("Moscow"), possibleCityes: .constant([]), currentWeather: Current(condition: Condition(text: "Patchy rain nearby", icon: "//cdn.weatherapi.com/weather/64x64/day/176.png"), temp_c: 19, temp_f: 0.0, wind_kph: 2, humidity: 69), selectedScale: "Celsius", selectScale: {},fetchWeather: {}, selectCity: {_ in})
 }

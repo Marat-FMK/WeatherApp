@@ -48,6 +48,7 @@ class HomeViewModel: ObservableObject {
                 print(error)
             }
         }
+        possibleCityes = []
     }
     
     func fetchCityes() {
