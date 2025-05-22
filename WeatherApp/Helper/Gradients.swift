@@ -8,8 +8,9 @@
 import SwiftUI
 
 class Gradients {
+    let iconGradient = LinearGradient(colors: [.yellow, .red, .green, .orange, .blue], startPoint: .bottomLeading, endPoint: .topTrailing)
     let currentDayGradient = LinearGradient(colors: [.purple, .blue], startPoint: .bottomLeading, endPoint: .topTrailing)
-    let dauGradient = LinearGradient(colors: [.appPurple, .appBlue], startPoint: .bottomLeading, endPoint: .topTrailing)
+    let dayGradient = LinearGradient(colors: [.appPurple, .appBlue], startPoint: .bottomLeading, endPoint: .topTrailing)
     
     let dayGradientOne = LinearGradient(colors: [.gradient1, .gradient2], startPoint: .bottomLeading, endPoint: .topTrailing)
     let dayGradientTwo = LinearGradient(colors: [.gradient2, .gradient3], startPoint: .bottomLeading, endPoint: .topTrailing)
