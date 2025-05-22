@@ -11,12 +11,21 @@ struct SearchTextField: View {
     @FocusState.Binding var fieldInFocused: Bool
     @Binding var searchText: String
     @Binding var dynamicBackground: Bool
+    @State private var animation = false
+    @State private var scale = false
     let fetchWeather: () -> Void
     
     var body: some View {
         HStack {
             Button {
-                dynamicBackground.toggle()
+                withAnimation(.smooth(duration: 1.0)) {
+                    animation.toggle()
+                    scale = true
+                    dynamicBackground.toggle()
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+                    scale = false
+                }
             } label: {
                 Image("magicBackground")
                     .resizable()
@@ -25,6 +34,8 @@ struct SearchTextField: View {
                     .foregroundStyle(dynamicBackground ? .red : .white.opacity(0.6))
                     .padding(.vertical, 5)
                     .padding(.trailing, 10)
+                    .scaleEffect(scale ? 1.8 : 1)
+                    .rotation3DEffect(.degrees(animation ? 720 : 0), axis: (x: 1, y: 1, z: 1))
             }
             .buttonStyle(.plain)
             
