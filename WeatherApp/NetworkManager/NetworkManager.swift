@@ -25,14 +25,14 @@ class NetworkManager {
     private let scheme = "https"
     private let host = "api.weatherapi.com"
     private let pathComponent = "/v1/"
-    private let forecastEndpoint = "forecast.json" // enum
+    private let forecastEndpoint = "forecast.json"
     private let searchEndpoint = "search.json"
     private let dayCount = "5"
     
-   
+    
     // write generic
     func fetchWeather(city: String, completion: @escaping (Result<Weather,NetworkError>) -> Void ) {
-       var urlComponents = URLComponents()
+        var urlComponents = URLComponents()
         urlComponents.scheme = scheme
         urlComponents.host = host
         urlComponents.path = pathComponent + forecastEndpoint
@@ -53,7 +53,7 @@ class NetworkManager {
             guard let data = data else {completion(.failure(.data)); return }
             
             do {
-               let forecast = try JSONDecoder().decode(Weather.self, from: data)
+                let forecast = try JSONDecoder().decode(Weather.self, from: data)
                 print("Forecast --->>>", forecast)
                 completion(.success(forecast))
             } catch {
@@ -64,32 +64,32 @@ class NetworkManager {
     
     func fetchCityes(searchText: String, completion: @escaping (Result<[Location], NetworkError>)-> Void) {
         var urlComponents = URLComponents()
-         urlComponents.scheme = scheme
-         urlComponents.host = host
-         urlComponents.path = pathComponent + searchEndpoint
-         urlComponents.queryItems = [
-             URLQueryItem(name: "key", value: apiKey),
-             URLQueryItem(name: "q", value: searchText)
-         ]
-         
-         guard let url = urlComponents.url else { return }
-         
-         let request = URLRequest(url: url)
-         
-         URLSession.shared.dataTask(with: request) { data, response, error in
-             
-             guard error == nil else {completion(.failure(.sessionError)); return }
-             
-             guard let data = data else {completion(.failure(.data)); return }
-             
-             do {
+        urlComponents.scheme = scheme
+        urlComponents.host = host
+        urlComponents.path = pathComponent + searchEndpoint
+        urlComponents.queryItems = [
+            URLQueryItem(name: "key", value: apiKey),
+            URLQueryItem(name: "q", value: searchText)
+        ]
+        
+        guard let url = urlComponents.url else { return }
+        
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            
+            guard error == nil else {completion(.failure(.sessionError)); return }
+            
+            guard let data = data else {completion(.failure(.data)); return }
+            
+            do {
                 let cityes = try JSONDecoder().decode([Location].self, from: data)
-                 print("Cityes --->>>",cityes)
-                 completion(.success(cityes))
-             } catch {
-                 completion(.failure(.decode))
-                 print("error")
-             }
-         }.resume()
+                print("Cityes --->>>",cityes)
+                completion(.success(cityes))
+            } catch {
+                completion(.failure(.decode))
+                print("error")
+            }
+        }.resume()
     }
 }

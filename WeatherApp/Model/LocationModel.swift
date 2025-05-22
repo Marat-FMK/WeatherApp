@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Location: Codable, Hashable {
+struct Location: Codable, Hashable, Equatable {
     let name: String?
     let region: String?
     let country: String?

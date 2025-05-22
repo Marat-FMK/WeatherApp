@@ -10,6 +10,7 @@ import SwiftUI
 class HomeViewModel: ObservableObject {
     
     @AppStorage("selectedScale") var selectedScale = "Celsius"
+    @AppStorage("dynamicBackground") var dynamicBackground = false
     @AppStorage("selectedCity") var selectedCity: String = "Moscow, Russia" {
         didSet {
             uploudCityes()
@@ -21,14 +22,10 @@ class HomeViewModel: ObservableObject {
     @Published var currentWeather: Current = Current.empty
     let networkManager = NetworkManager()
     var callFetchCityes = true
-    var daysForecast: [[Hour]] = []
+    var hourlyForecast: [[Hour]] = []
     
     init() {
-        fetchWeather() // animation for search buttton
-    }
-    
-    func selectScale() {
-        selectedScale = selectedScale == "Celsius" ? "Fahrenheit" : "Celsius"
+        fetchWeather()
     }
     
     func fetchWeather() {
@@ -43,12 +40,13 @@ class HomeViewModel: ObservableObject {
                     self.forecast = forecast
                     self.forecastdays = forecastday
                     self.setDays()
+                    self.possibleCityes = []
+                    self.callFetchCityes = true
                 }
             case .failure(let error):
                 print(error)
             }
         }
-        possibleCityes = []
     }
     
     func fetchCityes() {
@@ -56,8 +54,7 @@ class HomeViewModel: ObservableObject {
             switch result {
             case .success(let cityes):
                 DispatchQueue.main.async {
-                    let cleanCityes = Set(cityes)
-                    self.possibleCityes = Array(cleanCityes)
+                    self.possibleCityes = cityes
                 }
             case .failure(let error):
                 print(error)
@@ -65,13 +62,31 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func setDays() {
+    func selectCity(location: Location) {
+        guard let locationName = location.name, let locationCountry = location.country else {
+            selectedCity = "Moscow Russia";
+            possibleCityes = [];
+            fetchWeather();
+            return}
         
+        callFetchCityes = false
+        selectedCity = locationName + ", " + locationCountry
+        possibleCityes = []
+        fetchWeather()
+    }
+    
+    func uploudCityes() {
+        if self.callFetchCityes {
+            self.fetchCityes()
+        }
+    }
+    
+    func setDays() {
         guard let hoursDayOne = forecast.forecastday?[0].hour,
               let hoursDayTwo = forecast.forecastday?[1].hour,
               let hoursDayThree = forecast.forecastday?[2].hour,
               let hoursDayFour = forecast.forecastday?[3].hour,
-              let hoursDayFive = forecast.forecastday?[4].hour else { daysForecast = []; return } // ??
+              let hoursDayFive = forecast.forecastday?[4].hour else { hourlyForecast = []; return }
         
         let dayOne = [hoursDayOne[5], hoursDayOne[11],hoursDayOne[15], hoursDayOne[18], hoursDayOne[21]]
         let dayTwo = [hoursDayTwo[5], hoursDayTwo[11],hoursDayTwo[15], hoursDayTwo[18], hoursDayTwo[21]]
@@ -79,30 +94,11 @@ class HomeViewModel: ObservableObject {
         let dayFour = [hoursDayFour[5], hoursDayFour[11],hoursDayFour[15], hoursDayFour[18], hoursDayFour[21]]
         let dayFive = [hoursDayFive[5], hoursDayFive[11],hoursDayFive[15], hoursDayFive[18], hoursDayFive[21]]
         
-        daysForecast = [dayOne, dayTwo, dayThree, dayFour, dayFive]
+        hourlyForecast = [dayOne, dayTwo, dayThree, dayFour, dayFive]
     }
     
-    func selectCity(location: Location) {
-        callFetchCityes = false
-        
-        guard let locationName = location.name, let locationCountry = location.country else {
-            selectedCity = "Moscow Russia";
-            possibleCityes = [];
-            fetchWeather();
-            return}
-        
-        selectedCity = locationName + ", " + locationCountry
-        possibleCityes = []
-        fetchWeather()
-        callFetchCityes = true
-    }
-    
-    func uploudCityes() {
-        if callFetchCityes {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
-                self.fetchCityes()
-            }
-        }
+    func selectScale() {
+        selectedScale = selectedScale == "Celsius" ? "Fahrenheit" : "Celsius"
     }
     
 }
