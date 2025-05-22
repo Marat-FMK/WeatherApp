@@ -13,6 +13,7 @@ struct HomeView: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             CurrentWeatherView(searchText: $viewModel.selectedCity,
+                               dynamicBackground: $viewModel.dynamicBackground,
                                possibleCityes: $viewModel.possibleCityes,
                                currentWeather: viewModel.currentWeather,
                                selectedScale: viewModel.selectedScale,
@@ -24,7 +25,8 @@ struct HomeView: View {
                 ErrorView()
             } else {
                 ForEach(viewModel.hourlyForecast.indices, id: \.description) { index in
-                    OneDay(forecastDay: viewModel.forecastdays[index],
+                    OneDay(dynamicBackground: viewModel.dynamicBackground,
+                           forecastDay: viewModel.forecastdays[index],
                            selectedScale: viewModel.selectedScale,
                            dayHours: viewModel.hourlyForecast[index])
                 }

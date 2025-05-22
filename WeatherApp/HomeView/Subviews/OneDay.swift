@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct OneDay: View {
+    let dynamicBackground: Bool
     let forecastDay: Forecastday
     let selectedScale: String
     let dayHours: [Hour]
-//    let gradient = LinearGradient(colors: [.appPurple, .appBlue], startPoint: .bottomLeading, endPoint: .topTrailing)
+    let gradient = Gradients()
     
     var body: some View {
         VStack {
@@ -33,10 +34,10 @@ struct OneDay: View {
         }
         .padding(.vertical, 20)
         .background(RoundedRectangle(cornerRadius: 25)
-            .foregroundStyle(Gradients().setBackground(temp: dayHours[2].temp_c ?? 12.0)))
+            .foregroundStyle( dynamicBackground ? gradient.setBackground(temp: dayHours[2].temp_c ?? 15) : gradient.dayGradient ))
     }
 }
 
 #Preview {
-    OneDay(forecastDay: Forecastday.empty, selectedScale: "Celsius", dayHours: [Hour.empty])
+    OneDay(dynamicBackground: false, forecastDay: Forecastday.empty, selectedScale: "Celsius", dayHours: [Hour.empty])
 }

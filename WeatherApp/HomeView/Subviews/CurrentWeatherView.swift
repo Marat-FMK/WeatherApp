@@ -14,7 +14,7 @@ struct CurrentWeatherView: View {
     @FocusState var fieldInFocused: Bool
     let currentWeather: Current
     let selectedScale: String
-//    let gradient = LinearGradient(colors: [.purple, .blue], startPoint: .bottomLeading, endPoint: .topTrailing)
+    let gradient = Gradients()
     let selectScale: () -> Void
     let fetchWeather: () -> Void
     let selectCity: (Location) -> Void
@@ -27,7 +27,7 @@ struct CurrentWeatherView: View {
                     fieldInFocused = false
                 }
             VStack(spacing: 10) {
-                SearchTextField(fieldInFocused: $fieldInFocused, searchText: $searchText, fetchWeather: fetchWeather)
+                SearchTextField(fieldInFocused: $fieldInFocused, searchText: $searchText, dynamicBackground: $dynamicBackground, fetchWeather: fetchWeather)
                 
                 if possibleCityes.isEmpty {
                     
@@ -46,7 +46,7 @@ struct CurrentWeatherView: View {
         .padding(20)
         .background {
             RoundedRectangle(cornerRadius: 30)
-                .foregroundStyle(Gradients().currentDayGradient)
+                .foregroundStyle(dynamicBackground ? gradient.setBackground(temp: currentWeather.temp_c ?? 15) : gradient.currentDayGradient)
         }
     }
 }
