@@ -9,17 +9,22 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     
-    @AppStorage("selectedCity") var selectedCity: String = "Moscow"
     @AppStorage("selectedScale") var selectedScale = "Celsius"
+    @AppStorage("selectedCity") var selectedCity: String = "Moscow, Russia" {
+        didSet {
+            uploudCityes()
+        }
+    }
     @Published var possibleCityes: [Location] = []
     @Published var forecast: Forecast = Forecast.empty
     @Published var forecastdays: [Forecastday] = [Forecastday.empty]
     @Published var currentWeather: Current = Current.empty
-    var daysForecast: [[Hour]] = []
     let networkManager = NetworkManager()
+    var callFetchCityes = true
+    var daysForecast: [[Hour]] = []
     
     init() {
-        fetchWeather()
+        fetchWeather() // animation for search buttton
     }
     
     func selectScale() {
@@ -45,11 +50,14 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func fetchCountryes() {
+    func fetchCityes() {
         networkManager.fetchCityes(searchText: selectedCity) { result in
             switch result {
             case .success(let cityes):
-                self.possibleCityes = cityes
+                DispatchQueue.main.async {
+                    let cleanCityes = Set(cityes)
+                    self.possibleCityes = Array(cleanCityes)
+                }
             case .failure(let error):
                 print(error)
             }
@@ -57,11 +65,12 @@ class HomeViewModel: ObservableObject {
     }
     
     func setDays() {
-        guard let hoursDayOne = forecast.forecastday?[0].hour else {return}
-        guard let hoursDayTwo = forecast.forecastday?[1].hour else {return}
-        guard let hoursDayThree = forecast.forecastday?[2].hour else {return}
-        guard let hoursDayFour = forecast.forecastday?[3].hour else {return}
-        guard let hoursDayFive = forecast.forecastday?[4].hour else {return}
+        
+        guard let hoursDayOne = forecast.forecastday?[0].hour,
+              let hoursDayTwo = forecast.forecastday?[1].hour,
+              let hoursDayThree = forecast.forecastday?[2].hour,
+              let hoursDayFour = forecast.forecastday?[3].hour,
+              let hoursDayFive = forecast.forecastday?[4].hour else { daysForecast = []; return } // ??
         
         let dayOne = [hoursDayOne[5], hoursDayOne[11],hoursDayOne[15], hoursDayOne[18], hoursDayOne[21]]
         let dayTwo = [hoursDayTwo[5], hoursDayTwo[11],hoursDayTwo[15], hoursDayTwo[18], hoursDayTwo[21]]
@@ -70,6 +79,29 @@ class HomeViewModel: ObservableObject {
         let dayFive = [hoursDayFive[5], hoursDayFive[11],hoursDayFive[15], hoursDayFive[18], hoursDayFive[21]]
         
         daysForecast = [dayOne, dayTwo, dayThree, dayFour, dayFive]
+    }
+    
+    func selectCity(location: Location) {
+        callFetchCityes = false
+        
+        guard let locationName = location.name, let locationCountry = location.country else {
+            selectedCity = "Moscow Russia";
+            possibleCityes = [];
+            fetchWeather();
+            return}
+        
+        selectedCity = locationName + ", " + locationCountry
+        possibleCityes = []
+        fetchWeather()
+        callFetchCityes = true
+    }
+    
+    func uploudCityes() {
+        if callFetchCityes {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+                self.fetchCityes()
+            }
+        }
     }
     
 }

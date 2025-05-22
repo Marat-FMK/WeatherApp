@@ -17,7 +17,9 @@ struct TemperatureStack: View {
         HStack {
             HStack(alignment: .top) {
                 Text(String(selectedScale == "Celsius" ? temperatureC : temperatureF))
+                    .lineLimit(1)
                     .customFont(name: .pillGothic600mgThin, size: 120)
+                    .minimumScaleFactor(0.8)
                     .foregroundStyle(.white)
                     .shadow(color: .gray.opacity(0.6), radius: 1, x: -5, y: 3)
                 

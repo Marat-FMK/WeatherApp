@@ -25,15 +25,13 @@ struct OneDay: View {
                     ForEach(dayHours, id: \.time) { hour in
                         WeatherByClock(time: hour.time ?? "no date", icon: hour.condition?.icon ?? "no icon", selectedScale: selectedScale, temperatureC: hour.temp_c ?? 0, temperatureF: hour.temp_f ?? 0)
                     }
-                    .padding(.leading, 20)
+                    .padding(.leading,20)
                 }
             }
             
             AdditionalStack(currentWind: forecastDay.day?.maxwind_kph ?? 0, currentHumidity: forecastDay.day?.avghumidity ?? 0)
-            
         }
         .padding(.vertical, 20)
-//        .frame(width: UIScreen.main.bounds.width)
         .background(RoundedRectangle(cornerRadius: 25).foregroundStyle(gradient))
     }
 }
