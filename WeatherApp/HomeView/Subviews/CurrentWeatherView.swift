@@ -8,25 +8,38 @@
 import SwiftUI
 
 struct CurrentWeatherView: View {
+    @Binding var searchText: String
+    @Binding var possibleCityes: [Location]
     let currentWeather: Current
     let selectedScale: String
     let gradient = LinearGradient(colors: [.purple, .blue], startPoint: .bottomLeading, endPoint: .topTrailing)
     let selectScale: () -> Void
+    let fetchWeather: () -> Void
+    let searchCityes: () -> Void
+    let selectCity: (Location) -> Void
     
     var body: some View {
         
         VStack(spacing: 10) {
             // Search
-            SearchTextField(searchText: .constant("Moscow"))
+            SearchTextField(searchText: $searchText, searchForecast: fetchWeather, searchCityes: searchCityes)
             
-            // // ICON
-            WeatherIcon(url: currentWeather.condition?.icon ?? "", description: currentWeather.condition?.text ?? "no description")
-            
-            // // TEMP
-            TemperatureStack(temperatureC: currentWeather.temp_c ?? 0, temperatureF: currentWeather.temp_f ?? 0, selectedScale: selectedScale, selectScale: selectScale)
-           
-            // // AdditionalInfo
-            AdditionalStack(currentWind: currentWeather.wind_kph ?? 0, currentHumidity: currentWeather.humidity ?? 0)
+            if possibleCityes.isEmpty {
+                VStack {
+                    // // ICON
+                    WeatherIcon(url: currentWeather.condition?.icon ?? "", description: currentWeather.condition?.text ?? "no description")
+                    
+                    // // TEMP
+                    TemperatureStack(temperatureC: currentWeather.temp_c ?? 0, temperatureF: currentWeather.temp_f ?? 0, selectedScale: selectedScale, selectScale: selectScale)
+                    
+                    // // AdditionalInfo
+                    AdditionalStack(currentWind: currentWeather.wind_kph ?? 0, currentHumidity: currentWeather.humidity ?? 0)
+                }
+            } else {
+                ForEach(possibleCityes, id: \.country) { city in
+                    CityName( city: city, fetchWeather: fetchWeather, selectCity: selectCity)
+                }
+            }
         }
         .padding(20)
         .background {
@@ -37,5 +50,5 @@ struct CurrentWeatherView: View {
 }
 
 #Preview {
-    CurrentWeatherView(currentWeather: Current(condition: Condition(text: "Patchy rain nearby", icon: "//cdn.weatherapi.com/weather/64x64/day/176.png"), temp_c: 19, temp_f: 0.0, wind_kph: 2, humidity: 69), selectedScale: "Celsius", selectScale: {})
+    CurrentWeatherView(searchText: .constant("Moscow"), possibleCityes: .constant([]), currentWeather: Current(condition: Condition(text: "Patchy rain nearby", icon: "//cdn.weatherapi.com/weather/64x64/day/176.png"), temp_c: 19, temp_f: 0.0, wind_kph: 2, humidity: 69), selectedScale: "Celsius", selectScale: {},fetchWeather: {}, searchCityes: {}, selectCity: {_ in})
 }
