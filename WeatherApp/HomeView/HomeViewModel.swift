@@ -20,9 +20,9 @@ class HomeViewModel: ObservableObject {
     @Published var forecast: Forecast = Forecast.empty
     @Published var forecastdays: [Forecastday] = [Forecastday.empty]
     @Published var currentWeather: Current = Current.empty
+    @Published var hourlyForecast: [[Hour]] = []
     let networkManager = NetworkManager()
     var callFetchCityes = true
-    var hourlyForecast: [[Hour]] = []
     
     init() {
         fetchWeather()
@@ -45,6 +45,7 @@ class HomeViewModel: ObservableObject {
                 }
             case .failure(let error):
                 print(error)
+                self.hourlyForecast = []
             }
         }
     }
