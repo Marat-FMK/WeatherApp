@@ -14,7 +14,7 @@ struct ScaleSelectionButton: View {
     
     var body: some View {
         Button {
-           selectScale()
+            selectScale()
         } label: {
             Text( buttonScale == "Fahrenheit" ? "ºF" : "ºC")
                 .customFont(name: .pillGothic600mgLight, size: 23)

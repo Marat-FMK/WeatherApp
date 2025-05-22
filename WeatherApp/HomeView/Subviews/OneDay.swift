@@ -11,7 +11,7 @@ struct OneDay: View {
     let forecastDay: Forecastday
     let selectedScale: String
     let dayHours: [Hour]
-    let gradient = LinearGradient(colors: [.appPurple, .appBlue], startPoint: .bottomLeading, endPoint: .topTrailing)
+//    let gradient = LinearGradient(colors: [.appPurple, .appBlue], startPoint: .bottomLeading, endPoint: .topTrailing)
     
     var body: some View {
         VStack {
@@ -32,7 +32,8 @@ struct OneDay: View {
             AdditionalStack(currentWind: forecastDay.day?.maxwind_kph ?? 0, currentHumidity: forecastDay.day?.avghumidity ?? 0)
         }
         .padding(.vertical, 20)
-        .background(RoundedRectangle(cornerRadius: 25).foregroundStyle(gradient))
+        .background(RoundedRectangle(cornerRadius: 25)
+            .foregroundStyle(Gradients().setBackground(temp: dayHours[2].temp_c ?? 12.0)))
     }
 }
 

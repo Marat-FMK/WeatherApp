@@ -9,7 +9,24 @@ import SwiftUI
 
 struct ErrorView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing:  20) {
+            Image(systemName: "x.square.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 120)
+                .foregroundStyle(.red.opacity(0.6))
+            Text("""
+                 An error occurred when uploading data.
+                 
+                 Сheck if the city is entered.
+                 Check your internet connection.
+                 There may be problems due to the enabled VPN.
+                 """)
+            .customFont(name: .pillGothic600mgSemibd, size: 20)
+        }
+        .padding(40)
+        .background(RoundedRectangle(cornerRadius: 16)
+            .foregroundStyle(LinearGradient(colors: [.red, .yellow], startPoint: .bottomTrailing, endPoint: .topLeading)))
     }
 }
 

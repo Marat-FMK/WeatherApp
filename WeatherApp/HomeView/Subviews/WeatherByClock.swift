@@ -19,7 +19,7 @@ struct WeatherByClock: View {
             Text(String(selectedScale == "Celsius" ? temperatureC : temperatureF))
                 .customFont(name: .pillGothic600mgLight, size: 25)
                 .foregroundStyle(.white)
-
+            
             AsyncImage(url: URL(string: "https:" + icon)) { Icon in
                 Icon
                     .resizable()

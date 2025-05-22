@@ -19,7 +19,6 @@ struct AdditionalStack: View {
             AdditionalInfo(title: "Humidity", value: currentHumidity)
                 .padding(.leading, 15)
         }
-//        .background(.green)
     }
 }
 

@@ -27,7 +27,7 @@ struct WeatherIcon: View {
                     .scaledToFit()
                     .foregroundStyle(.white.opacity(0.6))
             }
-        
+            
             Spacer()
             
             Text(description)

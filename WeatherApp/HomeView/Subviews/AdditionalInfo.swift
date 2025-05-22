@@ -12,26 +12,6 @@ struct AdditionalInfo: View {
     let value: Double
     
     var body: some View {
-        
-//        VStack {
-//            HStack {
-//                Image(systemName: title == "Wind" ? "wind" : "humidity")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(height: 25)
-//                    
-//                Text(title)
-//                    .customFont(name: .pillGothic600mgSemibd, size: 15)
-//            }
-//            HStack {
-//                Text(String(value))
-//                Text(title == "Wind" ? "km/h" : "%")
-//            }
-//        }
-//        .foregroundStyle(.white.opacity(0.8))
-//        .frame(width: 100, height: 50)
-////        .background(.green)
-    
         VStack {
             HStack {
                 Image(systemName: title == "Wind" ? "wind" : "humidity")
@@ -49,7 +29,6 @@ struct AdditionalInfo: View {
         }
         .foregroundStyle(.white.opacity(0.8))
         .frame(width: 100, height: 50)
-//        .background(.green)
     }
 }
 
