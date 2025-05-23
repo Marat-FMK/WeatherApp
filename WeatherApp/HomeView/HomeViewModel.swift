@@ -29,7 +29,7 @@ class HomeViewModel: ObservableObject {
     }
     
     func fetchWeather() {
-        networkManager.fetchWeather(city: selectedCity) { result in
+        networkManager.fetch(city: selectedCity, endpoint: .forecast) { (result: Result<Weather, NetworkError>) in
             switch result {
             case .success(let weather):
                 guard let current = weather.current else {
@@ -59,7 +59,7 @@ class HomeViewModel: ObservableObject {
     }
     
     func fetchCityes() {
-        networkManager.fetchCityes(searchText: selectedCity) { result in
+        networkManager.fetch(city: selectedCity, endpoint: .search){ (result: Result<[Location], NetworkError>) in
             switch result {
             case .success(let cityes):
                 DispatchQueue.main.async {
@@ -91,7 +91,7 @@ class HomeViewModel: ObservableObject {
     }
     
     func presentErrorView() -> Bool {
-       return hourlyForecast.isEmpty || currentWeather == Current.empty ? true : false
+        return hourlyForecast.isEmpty || currentWeather == Current.empty ? true : false
     }
     
     func setDays() {
@@ -113,5 +113,4 @@ class HomeViewModel: ObservableObject {
     func selectScale() {
         selectedScale = selectedScale == "Celsius" ? "Fahrenheit" : "Celsius"
     }
-    
 }
