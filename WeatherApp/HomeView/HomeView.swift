@@ -18,10 +18,9 @@ struct HomeView: View {
                                currentWeather: viewModel.currentWeather,
                                selectedScale: viewModel.selectedScale,
                                selectScale: viewModel.selectScale,
-                               fetchWeather: viewModel.fetchWeather,
                                selectCity: viewModel.selectCity)
             
-            if viewModel.hourlyForecast.isEmpty {
+            if viewModel.presentErrorView() {
                 ErrorView()
             } else {
                 ForEach(viewModel.hourlyForecast.indices, id: \.description) { index in
@@ -32,7 +31,7 @@ struct HomeView: View {
                 }
             }
         }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, 8)
         .background(.appBackground)
     }
 }

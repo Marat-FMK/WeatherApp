@@ -43,5 +43,9 @@ struct WeatherByClock: View {
 }
 
 #Preview {
-    WeatherByClock(time: "2025-05-25 19:00", icon: "//cdn.weatherapi.com/weather/64x64/day/176.png",selectedScale: "Celsius", temperatureC: 25.0, temperatureF: 99.1)
+    WeatherByClock(time: "2025-05-25 19:00",
+                   icon: "//cdn.weatherapi.com/weather/64x64/day/176.png",
+                   selectedScale: "Celsius",
+                   temperatureC: 25.0,
+                   temperatureF: 99.1)
 }

@@ -32,14 +32,21 @@ struct TemperatureStack: View {
             Spacer()
             
             VStack(spacing: -8) {
-                ScaleSelectionButton(selectedScale: selectedScale, buttonScale: "Celsius", selectScale: selectScale)
+                ScaleSelectionButton(selectedScale: selectedScale,
+                                     buttonScale: "Celsius",
+                                     selectScale: selectScale)
                 
-                ScaleSelectionButton(selectedScale: selectedScale, buttonScale: "Fahrenheit", selectScale: selectScale)
+                ScaleSelectionButton(selectedScale: selectedScale,
+                                     buttonScale: "Fahrenheit",
+                                     selectScale: selectScale)
             }
         }
     }
 }
 
 #Preview {
-    TemperatureStack(temperatureC: 31.7, temperatureF: 55.1, selectedScale: "Fahrenheit", selectScale: {})
+    TemperatureStack(temperatureC: 31.7,
+                     temperatureF: 55.1,
+                     selectedScale: "Fahrenheit",
+                     selectScale: {})
 }

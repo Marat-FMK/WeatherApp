@@ -32,7 +32,12 @@ class HomeViewModel: ObservableObject {
         networkManager.fetchWeather(city: selectedCity) { result in
             switch result {
             case .success(let weather):
-                guard let current = weather.current else {return}
+                guard let current = weather.current else {
+                    DispatchQueue.main.async{
+                        self.currentWeather = Current.empty
+                    }
+                    return
+                }
                 guard let forecast = weather.forecast else {return}
                 guard let forecastday = weather.forecast?.forecastday else {return}
                 DispatchQueue.main.async {
@@ -45,7 +50,10 @@ class HomeViewModel: ObservableObject {
                 }
             case .failure(let error):
                 print(error)
-                self.hourlyForecast = []
+                DispatchQueue.main.async {
+                    self.currentWeather = Current.empty
+                    self.hourlyForecast = []
+                }
             }
         }
     }
@@ -71,7 +79,7 @@ class HomeViewModel: ObservableObject {
             return}
         
         callFetchCityes = false
-        selectedCity = locationName + ", " + locationCountry
+        selectedCity = locationCountry.isEmpty ? locationName : locationName + ", " + locationCountry
         possibleCityes = []
         fetchWeather()
     }
@@ -80,6 +88,10 @@ class HomeViewModel: ObservableObject {
         if self.callFetchCityes {
             self.fetchCityes()
         }
+    }
+    
+    func presentErrorView() -> Bool {
+       return hourlyForecast.isEmpty || currentWeather == Current.empty ? true : false
     }
     
     func setDays() {

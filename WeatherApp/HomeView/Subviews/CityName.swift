@@ -10,7 +10,6 @@ import SwiftUI
 struct CityName: View {
     @FocusState.Binding var fieldInFocused: Bool
     let city: Location
-    let fetchWeather: () -> Void
     let selectCity: (Location) -> Void
     
     var body: some View {

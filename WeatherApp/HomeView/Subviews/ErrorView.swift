@@ -26,7 +26,7 @@ struct ErrorView: View {
         }
         .padding(40)
         .background(RoundedRectangle(cornerRadius: 16)
-            .foregroundStyle(LinearGradient(colors: [.red, .yellow], startPoint: .bottomTrailing, endPoint: .topLeading)))
+            .foregroundStyle(Gradients().errorGradient))
     }
 }
 

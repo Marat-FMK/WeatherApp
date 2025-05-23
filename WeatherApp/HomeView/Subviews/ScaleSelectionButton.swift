@@ -28,5 +28,7 @@ struct ScaleSelectionButton: View {
 }
 
 #Preview {
-    ScaleSelectionButton(selectedScale: "Celsius", buttonScale: "Fahrenheit", selectScale: {})
+    ScaleSelectionButton(selectedScale: "Celsius",
+                         buttonScale: "Fahrenheit",
+                         selectScale: {})
 }
