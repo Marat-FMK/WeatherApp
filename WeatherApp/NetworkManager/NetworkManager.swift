@@ -27,68 +27,37 @@ class NetworkManager {
     private let pathComponent = "/v1/"
     private let forecastEndpoint = "forecast.json"
     private let searchEndpoint = "search.json"
-    private let dayCount = "5"
+    private let dayQuery = URLQueryItem(name: "days", value: "5")
     
-    
-    // write generic
-    func fetchWeather(city: String, completion: @escaping (Result<Weather,NetworkError>) -> Void ) {
+    func fetch<T: Decodable> (city: String, endpoint: Endpoint,
+                              completion: @escaping(Result<T,NetworkError>) -> Void) {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme
         urlComponents.host = host
-        urlComponents.path = pathComponent + forecastEndpoint
-        urlComponents.queryItems = [
-            URLQueryItem(name: "key", value: apiKey),
-            URLQueryItem(name: "q", value: city),
-            URLQueryItem(name: "days", value: dayCount)
-        ]
+        urlComponents.path = pathComponent + endpoint.rawValue
         
-        guard let url = urlComponents.url else {completion(.failure(.badURL)); return}
+        var queryItems = [
+            URLQueryItem(name: "key", value: apiKey),
+            URLQueryItem(name: "q", value: city)
+        ]
+        if endpoint == .forecast {
+            queryItems.append(dayQuery)
+        }
+        urlComponents.queryItems = queryItems
+        
+        guard let url = urlComponents.url else { completion(.failure(.badURL)); return}
         
         let request = URLRequest(url: url)
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            
+        URLSession.shared.dataTask(with: request) { data, _, error in
             guard error == nil else {completion(.failure(.sessionError)); return}
-            
-            guard let data = data else {completion(.failure(.data)); return }
-            
-            do {
-                let forecast = try JSONDecoder().decode(Weather.self, from: data)
-                print("Forecast --->>>", forecast)
-                completion(.success(forecast))
-            } catch {
-                completion(.failure(.decode))
-            }
-        }.resume()
-    }
-    
-    func fetchCityes(searchText: String, completion: @escaping (Result<[Location], NetworkError>)-> Void) {
-        var urlComponents = URLComponents()
-        urlComponents.scheme = scheme
-        urlComponents.host = host
-        urlComponents.path = pathComponent + searchEndpoint
-        urlComponents.queryItems = [
-            URLQueryItem(name: "key", value: apiKey),
-            URLQueryItem(name: "q", value: searchText)
-        ]
-        
-        guard let url = urlComponents.url else { return }
-        
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            guard error == nil else {completion(.failure(.sessionError)); return }
-            
-            guard let data = data else {completion(.failure(.data)); return }
+            guard let data = data else { completion(.failure(.data)); return}
             
             do {
-                let cityes = try JSONDecoder().decode([Location].self, from: data)
-                print("Cityes --->>>",cityes)
-                completion(.success(cityes))
+                let result = try JSONDecoder().decode(T.self, from: data)
+                completion(.success(result))
             } catch {
                 completion(.failure(.decode))
-                print("error")
             }
         }.resume()
     }
