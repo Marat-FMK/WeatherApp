@@ -13,7 +13,11 @@ struct Weather: Codable {
     let forecast: Forecast?
 }
 
-struct Current: Codable {
+struct Current: Codable, Equatable {
+    static func == (lhs: Current, rhs: Current) -> Bool {
+        lhs.temp_c == rhs.temp_c
+    }
+    
     let condition: Condition?
     let temp_c: Double?
     let temp_f: Double?
