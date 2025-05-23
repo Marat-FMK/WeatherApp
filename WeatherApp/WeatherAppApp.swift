@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct WeatherAppApp: App {
-    let network = NetworkManager()
     var body: some Scene {
         WindowGroup {
             HomeView()
